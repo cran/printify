@@ -5,11 +5,16 @@
 
 <!-- badges: start -->
 
+[![CRAN
+Version](https://www.r-pkg.org/badges/version/printify?color=green)](https://cran.r-project.org/package=printify)
 [![DEVELOPMENT
-Version](https://img.shields.io/badge/GitHub-1.0.0-blue.svg)](https://github.com/s3rdia/printify)
+Version](https://img.shields.io/badge/GitHub-1.0.1-blue.svg)](https://github.com/s3rdia/printify)
+[![CRAN
+checks](https://badges.cranchecks.info/summary/printify.svg)](https://cran.r-project.org/web/checks/check_results_printify.html)
 [![Ask
 DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/s3rdia/printify)
 [![qol_blog](https://img.shields.io/badge/qol-Blog-036f30)](https://s3rdia.github.io/qol_blog/)
+[![status](https://tinyverse.netlify.app/badge/printify?v=2)](https://CRAN.R-project.org/package=printify)
 <!-- badges: end -->
 
 Custom Formatted Console Messages With Timing Support
@@ -81,20 +86,43 @@ test_func()
 # See what is going on in the message stack
 message_stack <- get_message_stack()
 
+# Print messages on the same line instead of below each other
+in_place_steps <- function(){
+    print_start_message()
+    
+    print_step("MAJOR", "Let's get started...")
+    
+    for (i in seq_len(10)){
+        print_step("Minor", "This is in place step [i] of 10", i = i, in_place = TRUE)
+        Sys.sleep(0.25)
+    }
+    
+    print_step("MAJOR", "Loop has ended")
+    
+    print_closing()
+}
+
+in_place_steps()
+
 # Set up a custom message
-hotdog <- set_up_custom_message(ansi_icon = "\U0001f32d",
-                                text_icon = "IOI",
-                                indent    = 1,
-                                type      = "HOTDOG",
-                                color     = "#B27A01")
+set_up_custom_message(type           = "HOTDOG",
+                      color          = "#B27A01",
+                      ansi_icon      = "\U0001f32d",
+                      text_icon      = "IOI",
+                      indent         = 1,
+                      ansi_wait_icon = "\U00023f1",
+                      text_wait_icon = "/",)
 
 hotdog_print <- function(){
     print_start_message()
-    print_message(hotdog, c("This is the first hotdog message! Hurray!",
-                            "And it is also multiline in this version."))
-    print_step(hotdog, "Or use as single line message with time stamps.")
-    print_step(hotdog, "Or use as single line message with time stamps.")
-    print_step(hotdog, "Or use as single line message with time stamps.")
+    print_message("HOTDOG", c("This is the first hotdog message! Hurray!",
+                              "And it is also multiline in this version."))
+    print_step("HOTDOG", "Or use as single line message with time stamps.")
+    Sys.sleep(0.5)
+    print_step("HOTDOG", "Or use as single line message with time stamps.")
+    Sys.sleep(0.5)
+    print_step("HOTDOG", "Or use as single line message with time stamps.")
+    Sys.sleep(0.5)
     print_closing()
 }
 
